@@ -1,4 +1,5 @@
 import discord
+import time
 import os
 import requests
 import json
@@ -67,7 +68,10 @@ async def on_message(message):
             options = options + db["encouragements"]
 
         if any(word in msg for word in sad_words):
+            quote = get_quote()
             await message.channel.send(random.choice(options))
+            time.sleep(2)
+            await message.channel.send(quote)
 
     if msg.startswith(".new"):
         encouraging_message = msg.split(".new ", 1)[1]
