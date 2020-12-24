@@ -8,6 +8,10 @@ from replit import db
 from keep_alive import keep_alive
 
 bot = discord.Client()
+bot = commands.Bot(command_prefix=".")
+
+
+status = cycle(['GTA V', 'Chess', 'Checkers', 'Minecraft'])
 
 sad_words = ["sad", "depressed", "unhappy", "angry", "grave", "hard", "lonely", "sorry", "upset", "troubled", "demise", "disappointed", "death", "obituary", "disaster", "funeral", "gloomy", "sombre", "dismal", "rejected", "gloomy", "unhappy", "miserable", "angry"]
 
