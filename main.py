@@ -48,6 +48,29 @@ def delete_encouragement(index):
 async def on_ready():
     print(f"Logged in as {client.user}")
 
+# When someone joins
+@client.event
+async def on_member_join(member):
+    channel = discord.utils.get(member.guild.channels, name="general")
+    print(f'{member} has joined the server.')
+    await channel.send(f"Welcome, {member}.")
+
+# When member leaves
+@client.event
+async def on_member_remove(member):
+    channel = discord.utils.get(member.guild.channels, name="general")
+    print(f'{member} has left the server.')
+    await channel.send(f"{member} has left us.")
+
+# Clear messages
+@bot.command()
+@commands.has_permissions(manage_messages=True)
+async def clear(ctx, amount: int):
+    await ctx.channel.purge(limit=amount)
+    time.sleep(2)
+    await ctx.send(f"Cleared {amount} messages.")
+    print(f"Cleared {amount} messages")
+
 @client.event
 async def on_message(message):
     if message.author == client.user:
