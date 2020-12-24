@@ -7,7 +7,7 @@ import random
 from replit import db
 from keep_alive import keep_alive
 
-client = discord.Client()
+bot = discord.Client()
 
 sad_words = ["sad", "depressed", "unhappy", "angry", "grave", "hard", "lonely", "sorry", "upset", "troubled", "demise", "disappointed", "death", "obituary", "disaster", "funeral", "gloomy", "sombre", "dismal", "rejected", "gloomy", "unhappy", "miserable", "angry"]
 
@@ -44,19 +44,19 @@ def delete_encouragement(index):
 
 
 
-@client.event
+@bot.event
 async def on_ready():
-    print(f"Logged in as {client.user}")
+    print(f"Logged in as {bot.user}")
 
 # When someone joins
-@client.event
+@bot.event
 async def on_member_join(member):
     channel = discord.utils.get(member.guild.channels, name="general")
     print(f'{member} has joined the server.')
     await channel.send(f"Welcome, {member}.")
 
 # When member leaves
-@client.event
+@bot.event
 async def on_member_remove(member):
     channel = discord.utils.get(member.guild.channels, name="general")
     print(f'{member} has left the server.')
@@ -71,9 +71,14 @@ async def clear(ctx, amount: int):
     await ctx.send(f"Cleared {amount} messages.")
     print(f"Cleared {amount} messages")
 
-@client.event
+# Loop a task
+@tasks.loop(minutes=10)
+async def change_status():
+    await bot.change_presence(activity=discord.Game(next(status)))
+
+@bot.event
 async def on_message(message):
-    if message.author == client.user:
+    if message.author == bot.user:
         return
     
     msg = message.content
@@ -126,5 +131,5 @@ async def on_message(message):
 
     
 keep_alive()
-client.run(os.getenv('TOKEN'))
+bot.run(os.getenv('TOKEN'))
 
