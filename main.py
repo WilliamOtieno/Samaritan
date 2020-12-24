@@ -43,7 +43,6 @@ def delete_encouragement(index):
         db["encouragements"] = encouragements
 
 
-
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
@@ -70,6 +69,14 @@ async def clear(ctx, amount: int):
     time.sleep(2)
     await ctx.send(f"Cleared {amount} messages.")
     print(f"Cleared {amount} messages")
+
+# Handle exception
+@clear.error
+async def clear_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("Please specify amount of messages to delete.")
+    elif isinstance(error, commands.MissingPermissions):
+        await ctx.send("You are not my master.")
 
 # Loop a task
 @tasks.loop(minutes=10)
