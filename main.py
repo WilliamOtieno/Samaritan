@@ -52,8 +52,6 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    if message.author == bot.user:
-        return
 
     msg = message.content
     if any(word in msg for word in sad_words):
@@ -175,7 +173,7 @@ async def admin_error(ctx, error):
 
 
 def is_it_me(ctx):
-    return ctx.author.id == 693701426953584691
+    return ctx.author.id == 790846026881171476
 
 
 @bot.command()
